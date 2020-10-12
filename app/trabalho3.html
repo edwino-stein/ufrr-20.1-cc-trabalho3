@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>3º Trabalho de Construção de Compiladores - Edwino Stein</title>
+
+        <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="Automato.js"></script>
+        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="js/semantic.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+    </head>
+    <body>
+        <div id="container" class="ui container">
+            <h2 class="ui header">
+                Analisador Léxico (Linguagens com Automatos)
+                <div class="sub header">3º Trabalho de Construção de Compiladores</div>
+            </h2>
+            <div class="ui segments">
+                <div class="ui segment">
+                    <h3 class="ui header">
+                        Analisador
+                        <div class="sub header">Classifica as palavras conforme as linguagens definidas</div>
+                    </h3>
+                    <div id="actions">
+                        <button id="run" class="ui labeled positive icon button">
+                            <i class="play icon"></i>
+                            Analisar
+                        </button>
+                        <button id="load-file-btn" class="ui labeled primary icon button">
+                            <i class="file icon"></i>
+                            Carregar arquivo
+                        </button>
+                        <input id="load-file-input" type="file" accept=".txt,*.*">
+                    </div>
+                    <div class="ui two column grid">
+                        <div class="column">
+                            <div class="ui form">
+                                <div class="field">
+                                    <label>Palavras</label>
+                                    <textarea rows="15" name="source-code" id="source-code">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="left-col" class="column">
+                            <div id="message" class="ui info message">
+                                <div class="header">
+                                    Esperando código para análise
+                                </div>
+                                <p>
+                                    Utilize a caixa de texto ao lado para escrever
+                                    as paravras que serão a entrada para análise,
+                                    e então clique no botão <b>Analisar</b>,
+                                    ou carrege um arquivo de texto através do botão
+                                    <b>Carregar arquivo</b>.
+                                </p>
+                            </div>
+                            <div id="symbol-table">
+                                <h5 class="ui header" >Tabela de símbolos</h5>
+                                <table class="ui single line selectable small compact table center aligned">
+                                    <thead>
+                                        <tr>
+                                            <th>Símbolo</th>
+                                            <th>Linguagem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Símbolo</td>
+                                            <td>Linguagem</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer id="footer">Edwino A. L. Stein - 2020.1</footer>
+        </div>
+    </body>
+</html>

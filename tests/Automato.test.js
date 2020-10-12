@@ -10,7 +10,7 @@ tape('Verificar o construtor', (t) => {
 
     t.throws(
         () => Automato.criar(),
-        (e) => e === 'Alfabeto deve ser uma lista de simbulos',
+        (e) => e === 'Alfabeto deve ser uma lista de símbolos',
         'Deve ocorrer erro por causa da lista de símbolos do alfabeto'
     );
 

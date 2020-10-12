@@ -1,0 +1,58 @@
+#container {
+    padding-top: 20px;
+}
+
+#container .grid .column:last-child{
+    padding-left: 0
+}
+
+#source-code {
+    font-family: monospace;
+    resize: none;
+}
+
+#actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1em 1em;
+}
+
+#load-file-input {
+    display: none;
+}
+
+#linguagens .menu {
+    width: auto;
+}
+
+#linguagens .menu .item .header {
+    margin-bottom: 2px;
+}
+
+#left-col {
+    height: 330px;
+    overflow-y: auto;
+}
+
+#message {
+    margin-top: 23px;
+}
+
+#symbol-table {
+    display: none;
+}
+
+#symbol-table .header{
+    margin: 0 0 .28571429rem 0;
+}
+
+#symbol-table .table {
+    margin: 0;
+}
+
+#footer {
+    text-align: center;
+    font-size: larger;
+    padding: 7px 0;
+}

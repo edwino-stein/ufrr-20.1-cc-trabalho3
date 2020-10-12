@@ -16,12 +16,12 @@ class AutomatoEstado {
 
     /**
      * Retorna o próximo estado de acordo com a transição de saída referente a um símbolo
-     * @param  {string} simbulo Símbolo referente a transição de sáida
+     * @param  {string} simbolo Símbolo referente a transição de sáida
      * @return {AutomatoEstado}
      */
-    proximo (simbulo) {
-        if(typeof(this._transicoes[simbulo]) === 'undefined') return null;
-        else return this._transicoes[simbulo]();
+    proximo (simbolo) {
+        if(typeof(this._transicoes[simbolo]) === 'undefined') return null;
+        else return this._transicoes[simbolo]();
     }
 }
 
@@ -94,11 +94,11 @@ class Automato {
         if(typeof(handle) !== 'function') handle = () => {}
 
         // Converte a entrada em uma lista de símbolos e define o estado inicial
-        const simbulos = [...entrada];
+        const simbolos = [...entrada];
         let estado = this.inicial;
 
         // Para cada símbolo
-        for (const s of simbulos) {
+        for (const s of simbolos) {
 
             // Verifica se pertence ao alfabeto
             if(!this.alfabeto.includes(s)) throw 'Símbolo não pertence ao alfabeto';
@@ -128,7 +128,7 @@ class Automato {
 
         // O alfabeto tem que ser uma lista
         if(typeof(alfabeto) !== 'object' || !(alfabeto instanceof Array)){
-            throw 'Alfabeto deve ser uma lista de simbulos';
+            throw 'Alfabeto deve ser uma lista de símbolos';
         }
 
         // Cria a instância de Automato e define o alfabeto
@@ -181,7 +181,7 @@ class Automato {
             const transicoesResolvidas = {};
 
             // Guarda os símbulos do alfabeto para controle de utilização
-            const simbulosAindaNaoUsados = [ ...automato.alfabeto ];
+            const simbolosAindaNaoUsados = [ ...automato.alfabeto ];
 
             // Para cada símbulo, define as transições de saída deste estado
             for (const s in transicoes) {
@@ -200,7 +200,7 @@ class Automato {
 
                 // O símbulo não pode ter sido utilizado por esse estado com
                 // alguma outra transição de saída
-                if(!simbulosAindaNaoUsados.includes(s)){
+                if(!simbolosAindaNaoUsados.includes(s)){
                     throw 'O símbulos já foi utilizado em outra transição neste estado';
                 }
 
@@ -209,13 +209,13 @@ class Automato {
 
                 // Remove o símbolo das lista de símblos que ainda não foram
                 // utilizados para este estado
-                simbulosAindaNaoUsados.splice(simbulosAindaNaoUsados.indexOf(s), 1);
+                simbolosAindaNaoUsados.splice(simbolosAindaNaoUsados.indexOf(s), 1);
             }
 
             // Se faltou utilizar algum símbulo do alfabeto, cria transições que
             // levam a um estádo inválido
-            if (simbulosAindaNaoUsados.length > 0) {
-                for (const s of simbulosAindaNaoUsados) {
+            if (simbolosAindaNaoUsados.length > 0) {
+                for (const s of simbolosAindaNaoUsados) {
                     transicoesResolvidas[s] = (a) => null;
                 }
             }
