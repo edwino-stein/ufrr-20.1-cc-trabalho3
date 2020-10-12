@@ -74,6 +74,63 @@ function renderLinguagens() {
     $lista.children().tab();
 }
 
+function renderAnaliseResultado(lexemas) {
+    const $message = $("#message");
+    const $table = $("#symbol-table");
+
+
+    $message.hide();
+    $table.hide();
+    $table.find("tbody").empty();
+
+    if(lexemas.length === 0){
+        $message.addClass("error");
+        $message.find(".header").text("Um erro ocorreu durante a análise");
+        $message.find("p").text('Nenhuma lexemas foi definida para analisar');
+        $message.show();
+        return;
+    }
+
+    for (const l of lexemas) {
+
+        $table.find("tbody").append($.parseHTML(
+            `<tr>
+                <td>${l.palavra}</td>
+                <td>${l.linguagem !== null ? l.linguagem : 'Não reconhecida'}</td>
+            </tr>`
+        ));
+    }
+
+    console.log(lexemas);
+    $table.show();
+}
+
+function analisar(){
+    const palavras = $("#source-code").val().split('\n');
+    const lexemas = [];
+
+    for (var p of palavras) {
+
+        if(p.length === 0) continue;
+
+        let linguagemAceita = null;
+
+        for (const l in LINGUAGENS) {
+            if (!LINGUAGENS.hasOwnProperty(l)) continue;
+
+            try { if(!LINGUAGENS[l].automato.verificar(p)) continue; }
+            catch(e){ continue; }
+
+            linguagemAceita = l;
+            break;
+        }
+
+        lexemas.push({ palavra: p, linguagem: linguagemAceita });
+    }
+
+    return lexemas;
+}
+
 $(document).ready(() => {
     renderLinguagens();
 
@@ -90,6 +147,9 @@ $(document).ready(() => {
             'nenhumavaiaceitar'
         ].join('\n')
     );
+
+    $("#run").click((e) => { renderAnaliseResultado(analisar()); });
+
     $("#load-file-btn").click((e) => { $("#load-file-input").click() });
     $("#load-file-input").change((e) => {
 
@@ -102,6 +162,7 @@ $(document).ready(() => {
             const src = $("#source-code");
             src.empty();
             src.val(fileReader.result);
+            renderAnaliseResultado(analisar());
         };
 
         fileReader.readAsText(file);
