@@ -75,10 +75,9 @@ class Automato {
     /**
      * Vericica se uma string é aceita pelo automato
      * @param  {string} entrada string de entrada
-     * @param  {function|undefined} handle  Função callback para cada iteração
      * @return {boolean}
      */
-    verificar (entrada, handle) {
+    verificar (entrada, comExcecao) {
 
         // O automato deve ter sido corretamente inicializado
         if(this.inicial === null) {
@@ -90,27 +89,34 @@ class Automato {
             throw 'A entrada deve ser uma string';
         }
 
-        // Define uma função callback generica caso não tenha sido definida
-        if(typeof(handle) !== 'function') handle = () => {}
+        // Verifica se a função deve ou não gerar exceções ou apenas retornar falso
+        if(typeof(comExcecao) !== 'boolean') comExcecao = false;
 
-        // Converte a entrada em uma lista de símbolos e define o estado inicial
-        const simbolos = [...entrada];
+        // Define o estado atual como o inicial
         let estado = this.inicial;
 
-        // Para cada símbolo
-        for (const s of simbolos) {
+        try {
+            // Converte a entrada em uma lista de símbolos e define o estado inicial
+            const simbolos = [...entrada];
 
-            // Verifica se pertence ao alfabeto
-            if(!this.alfabeto.includes(s)) throw 'Símbolo não pertence ao alfabeto';
+            // Para cada símbolo
+            for (const s of simbolos) {
 
-            // Pega o próximo estado e verifica se é valido
-            const proximo = estado.proximo(s);
-            if(proximo === null) throw 'Símbolo levou a um estado inválido';
+                // Verifica se pertence ao alfabeto
+                if(!this.alfabeto.includes(s)) throw 'Símbolo não pertence ao alfabeto';
 
-            // Chama a função callback e define o próximo estado como atual
-            handle(s, estado, proximo);
-            estado = proximo;
+                // Verifica se na última transição resultou em um estado válido
+                if(estado === null) throw 'Símbolo levou a um estado inválido';
+
+                // Realiza a transição para o proximo estado com base no símbolo atual
+                estado = estado.proximo(s);
+            }
         }
+        catch(e){
+            if(comExcecao) throw e;
+            else return false;
+        }
+
 
         // Quando acabar os símbolos, verifica se o estado atual é um dos finais
         return this.finais.includes(estado);
