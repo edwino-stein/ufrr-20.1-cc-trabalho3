@@ -119,22 +119,63 @@ tape('Verificar a linguagem L = { w | w possui aa ou bb como subpalavra }', (t) 
     t.end();
 });
 
-tape('Verificar a linguagem L = { w | w termina com a }', (t) => {
+tape('Verificar a linguagem L = { w | w é a palavra malemolência com ou sem acento }', (t) => {
 
     const automato = Automato.criar(
-        [ 'a', 'b' ],
+        // Gera uma lista com as letras de malêemolencia
+        [...'malemolêencia'],
         {
-            q0: { a: 'qf', b: 'q0' },
-            qf: { a: 'qf', b: 'q0' }
+            q0: { m: 'q1' },
+            q1: { a: 'q2' },
+            q2: { l: 'q3' },
+            q3: { e: 'q4' },
+            q4: { m: 'q5' },
+            q5: { o: 'q6' },
+            q6: { l: 'q7' },
+            q7: { 'ê': 'q8', e: 'q8' },
+            q8: { n: 'q9' },
+            q9: { c: 'q10' },
+            q10: { i: 'q11' },
+            q11: { a: 'qf' },
+            qf: {}
         },
         [ 'qf' ],
         'q0'
     );
 
-    t.ok(automato.verificar('aa'), 'Deve aceitar "aa"')
-    t.notOk(automato.verificar('bb'), 'Não deve aceitar "baba"')
-    t.notOk(automato.verificar('abab'), 'Não deve aceitar "baba"')
-    t.ok(automato.verificar('bba'), 'Deve aceitar "bba"')
+    t.ok(automato.verificar('malemolência'), 'Deve aceitar "malemolência"');
+    t.ok(automato.verificar('malemolencia'), 'Deve aceitar "malemolencia"');
+    t.notOk(automato.verificar('malemolencia2'), 'Não deve aceitar "malemolencia2"');
+    t.notOk(automato.verificar('outrapalavra'), 'Não deve aceitar "outrapalavra"');
+
+    t.end();
+});
+
+tape('Verificar a linguagem L = { w | w é números naturais, incluindo o zero, porém sem zeros a esquerda }', (t) => {
+
+    const automato = Automato.criar(
+        // Gera uma lista com caracteres '0', '1', ..., '9'
+        Array(10).fill().map((_, i) => ''+i),
+        {
+            q0: {
+                '1': 'qf1', '2': 'qf1', '3': 'qf1', '4': 'qf1', '5': 'qf1',
+                '6': 'qf1', '7': 'qf1', '8': 'qf1', '9': 'qf1', '0': 'qf0'
+            },
+            qf1: {
+                '1': 'qf1', '2': 'qf1', '3': 'qf1', '4': 'qf1', '5': 'qf1',
+                '6': 'qf1', '7': 'qf1', '8': 'qf1', '9': 'qf1', '0': 'qf1'
+            },
+            qf0: {}
+        },
+        [ 'qf1', 'qf0' ],
+        'q0'
+    );
+
+    t.ok(automato.verificar('1234'), 'Deve aceitar "1234"');
+    t.ok(automato.verificar('0'), 'Deve aceitar "1234"');
+    t.notOk(automato.verificar('0123'), 'Não deve aceitar "0123"');
+    t.notOk(automato.verificar('00'), 'Não deve aceitar "00"');
+    t.notOk(automato.verificar('abc'), 'Não deve aceitar "abc"');
 
     t.end();
 });
