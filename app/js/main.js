@@ -136,12 +136,16 @@ $(document).ready(() => {
         [
             'aabb',
             'abab',
-            '100101010',
-            '00001',
+            '1234567890',
+            '0123456789',
+            '123abc456',
+            '0',
             'xyyxx',
+            'yxxyy',
             'yyxx',
-            'aababcbcbac',
-            'aaabbbccc',
+            'malemolência',
+            'malemolencia',
+            'malemolenciadenovo',
             'nenhumavaiaceitar'
         ].join('\n')
     );

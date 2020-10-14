@@ -1,6 +1,6 @@
 LINGUAGENS = {
-    A: {
-        definicao: 'w | w possui aa ou bb como subpalavra',
+    'A': {
+        definicao: 'possui aa ou bb como subpalavra',
         automato: Automato.criar(
             [ 'a', 'b' ],
             {
@@ -13,23 +13,8 @@ LINGUAGENS = {
             'q0'
         )
     },
-    B: {
-        definicao: 'w | w termina com 0 e |w|>=3',
-        automato: Automato.criar(
-            [ '0', '1' ],
-            {
-                q0: { '0': 'q1', '1': 'q1' },
-                q1: { '0': 'q2', '1': 'q2' },
-                q2: { '0': 'qf', '1': 'q3' },
-                q3: { '0': 'qf', '1': 'q3' },
-                qf: { '0': 'qf', '1': 'q3' }
-            },
-            [ 'qf' ],
-            'q0'
-        )
-    },
-    C: {
-        definicao: 'w | w começa e termina com x ou começa e termina com y',
+    'B': {
+        definicao: 'começa e termina com x ou começa e termina com y',
         automato: Automato.criar(
             [ 'x', 'y' ],
             {
@@ -43,18 +28,48 @@ LINGUAGENS = {
             'q0'
         )
     },
-    D: {
-        definicao: 'w | w possui cba como subpalavra',
+    'male': {
+        definicao: 'a palavra malemolência com ou sem acento',
         automato: Automato.criar(
-            [ 'a', 'b', 'c' ],
+            // Gera uma lista com as letras de malêemolencia
+            [ ...'malemolêencia' ],
             {
-                q0: { a: 'q0', b: 'q0', c: 'q1' },
-                q1: { a: 'q0', b: 'q2', c: 'q1' },
-                q2: { a: 'qf', b: 'q0', c: 'q1' },
-                qf: { a: 'qf', b: 'qf', c: 'qf' }
+                q0: { m: 'q1' },
+                q1: { a: 'q2' },
+                q2: { l: 'q3' },
+                q3: { e: 'q4' },
+                q4: { m: 'q5' },
+                q5: { o: 'q6' },
+                q6: { l: 'q7' },
+                q7: { 'ê': 'q8', e: 'q8' },
+                q8: { n: 'q9' },
+                q9: { c: 'q10' },
+                q10: { i: 'q11' },
+                q11: { a: 'qf' },
+                qf: {}
             },
             [ 'qf' ],
             'q0'
         )
     },
+    'natu': {
+        definicao: 'números naturais, incluindo o zero, porém sem zeros a esquerda',
+        automato: Automato.criar(
+            // Gera uma lista com caracteres '0', '1', ..., '9'
+            Array(10).fill().map((_, i) => ''+i),
+            {
+                q0: {
+                    '1': 'qf1', '2': 'qf1', '3': 'qf1', '4': 'qf1', '5': 'qf1',
+                    '6': 'qf1', '7': 'qf1', '8': 'qf1', '9': 'qf1', '0': 'qf0'
+                },
+                qf1: {
+                    '1': 'qf1', '2': 'qf1', '3': 'qf1', '4': 'qf1', '5': 'qf1',
+                    '6': 'qf1', '7': 'qf1', '8': 'qf1', '9': 'qf1', '0': 'qf1'
+                },
+                qf0: {}
+            },
+            [ 'qf1', 'qf0' ],
+            'q0'
+        )
+    }
 };
