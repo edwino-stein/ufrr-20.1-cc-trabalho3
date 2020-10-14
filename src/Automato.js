@@ -133,7 +133,9 @@ class Automato {
 
         // Cria a instância de Automato e define o alfabeto
         const automato = new Automato();
-        automato._alfabeto = alfabeto;
+
+        // Filtra entradas repetidas no alfabeto
+        automato._alfabeto = alfabeto.filter((i, p) => alfabeto.indexOf(i) === p)
 
         // Os estados tem que ser um object javascript chave-valor
         if (typeof(estados) !== 'object') {
