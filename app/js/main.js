@@ -43,7 +43,8 @@ function renderLinguagenAutomatoTpl(nome, automato) {
         )[0]);
 
         for (const s of automato.alfabeto) {
-            $rowTpl.append(`<td>${e.proximo(s).nome}</td>`);
+            const p = e.proximo(s);
+            $rowTpl.append(`<td>${p !== null ? p.nome : ''}</td>`);
         }
 
         $tableTpl.find('tbody').append($rowTpl);
@@ -117,10 +118,7 @@ function analisar(){
 
         for (const l in LINGUAGENS) {
             if (!LINGUAGENS.hasOwnProperty(l)) continue;
-
-            try { if(!LINGUAGENS[l].automato.verificar(p)) continue; }
-            catch(e){ continue; }
-
+            if(!LINGUAGENS[l].automato.verificar(p)) continue;
             linguagemAceita = l;
             break;
         }
